@@ -171,6 +171,7 @@ const EmployeeList = () => {
       <main className="employee-list-content">
         <Header
           title="EMPLOYEE LIST"
+          total={filteredEmployees.length}
           onAddEmployee={() => setIsAddOpen(true)}
         />
 

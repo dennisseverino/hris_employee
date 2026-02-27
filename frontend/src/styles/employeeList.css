@@ -52,11 +52,16 @@
   color: white;
   padding: 10px;
   font-size: 12px;
+
 }
 
 .employee-table td {
   padding: 10px;
   font-size: 13px;
+}
+
+.employee-table tbody tr {
+  border-bottom: 1px solid #eee;
 }
 
 .employee-table tbody tr:nth-child(even) {
@@ -180,4 +185,40 @@
 .employee-table th {
   cursor: pointer;
   user-select: none;
+}
+
+.filter-btn {
+  background: #1e90ff;
+  color: white;
+  border: none;
+  padding: 7px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.filter-btn:hover {
+  background: #1d4ed8;
+}
+
+.employee-view-toggle {
+  display: flex;
+  gap: 8px;
+}
+
+.employee-view-toggle button {
+  background: #e5e7eb;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.employee-view-toggle button:hover{
+  background: #d1d5db;
+
+}
+
+.employee-view-toggle button.active {
+  background: #1e90ff;
+  color: white;
 }
