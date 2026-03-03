@@ -63,9 +63,9 @@ function App() {
       />
 
       <Route
-        path="/Employee-list"
+        path="/employee-list"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredPermission="View Employee List">
             <EmployeeList />
           </ProtectedRoute>
         }

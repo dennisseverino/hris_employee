@@ -1,6 +1,7 @@
 type User = {
   first_name: string;
   role_name: string;
+  permissions: string[];
 };
 
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -54,51 +55,67 @@ const Sidebar = () => {
       </div>
 
       <nav className="menu">
-        <NavLink to="/dashboard" className={({ isActive }) => isActive ? 'active' : ''}>
-          Dashboard
-        </NavLink>
 
-        <NavLink to="/team" className={({ isActive }) => isActive ? 'active' : ''}>
-          Team
-        </NavLink>
+        {user?.permissions?.includes("View Dashboard") && (
+          <NavLink to="/dashboard" className={({ isActive }) => isActive ? 'active' : ''}>
+            Dashboard
+          </NavLink>
+        )}
 
-        <NavLink to="/attendance" className={({ isActive }) => isActive ? 'active' : ''}>
-          Attendance
-        </NavLink>
+        {user?.permissions?.includes("View Team") && (
+          <NavLink to="/team" className={({ isActive }) => isActive ? 'active' : ''}>
+            Team
+          </NavLink>
+        )}
 
-        {/* 🔥 Employee Dropdown */}
-        <div className="dropdown">
-          <div
-            className="dropdown-header"
-            onClick={() => setEmployeeOpen(!employeeOpen)}
-          >
-            Employee
-            <span className={`arrow ${employeeOpen ? 'open' : ''}`}>▼</span>
-          </div>
+        {user?.permissions?.includes("View Attendance") && (
+          <NavLink to="/attendance" className={({ isActive }) => isActive ? 'active' : ''}>
+            Attendance
+          </NavLink>
+        )}
 
-          {employeeOpen && (
-            <div className="dropdown-content">
-              <NavLink to="/schedule" className={({ isActive }) => isActive ? 'active' : ''}>
-                Schedule
-              </NavLink>
+        {/* Employee Dropdown */}
+        {(user?.permissions?.includes("View Employee List") ||
+          user?.permissions?.includes("Set Attendance")) && (
 
-              <NavLink to="/employee-list" className={({ isActive }) => isActive ? 'active' : ''}>
-                Lists
-              </NavLink>
-
-            
+          <div className="dropdown">
+            <div
+              className="dropdown-header"
+              onClick={() => setEmployeeOpen(!employeeOpen)}
+            >
+              Employee
+              <span className={`arrow ${employeeOpen ? 'open' : ''}`}>▼</span>
             </div>
-          )}
 
-            {user?.role_name === "Superadmin" && (
-                <NavLink
-                  to="/ControlPanel"
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  Control Panel
-                </NavLink>
-              )}
-        </div>
+            {employeeOpen && (
+              <div className="dropdown-content">
+
+                {user?.permissions?.includes("Set Attendance") && (
+                  <NavLink to="/schedule" className={({ isActive }) => isActive ? 'active' : ''}>
+                    Schedule
+                  </NavLink>
+                )}
+
+                {user?.permissions?.includes("View Employee List") && (
+                  <NavLink to="/employee-list" className={({ isActive }) => isActive ? 'active' : ''}>
+                    Lists
+                  </NavLink>
+                )}
+
+              </div>
+            )}
+          </div>
+        )}
+
+        {user?.role_name === "Superadmin" && (
+          <NavLink
+            to="/ControlPanel"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Control Panel
+          </NavLink>
+        )}
+
       </nav>
     </aside>
   );

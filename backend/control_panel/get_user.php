@@ -40,7 +40,8 @@ echo json_encode([
     "success" => true,
     "user" => [
         "first_name" => $employee['first_name'],
-        "role_name"  => $_SESSION['role_name'] ?? null
+        "role_name"  => $_SESSION['role_name'] ?? null,
+        "permissions" => $_SESSION['permissions'] ?? []
     ]
 ]);
 

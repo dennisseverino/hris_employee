@@ -1,6 +1,5 @@
 <?php
 require_once "../cors.php";
-session_start();
 require_once "../helpers/permission_helper.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
