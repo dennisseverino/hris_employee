@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 02, 2026 at 07:35 AM
+-- Generation Time: Mar 04, 2026 at 07:51 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,48 @@ SET time_zone = "+00:00";
 --
 -- Database: `hris_db`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `activity_logs`
+--
+
+CREATE TABLE `activity_logs` (
+  `log_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `action` varchar(255) NOT NULL,
+  `target` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `activity_logs`
+--
+
+INSERT INTO `activity_logs` (`log_id`, `user_id`, `action`, `target`, `created_at`) VALUES
+(30, 2, 'Restored Employee', NULL, '2026-03-04 05:47:42'),
+(31, 2, 'Deleted Employee Permanently', '0', '2026-03-04 05:55:17'),
+(32, 2, 'Deleted Employee Permanently', '0', '2026-03-04 05:56:26'),
+(33, 2, 'Restored Employee', NULL, '2026-03-04 05:56:31'),
+(34, 2, 'Deleted Employee Permanently', '0', '2026-03-04 05:57:07'),
+(35, 2, 'Restored Employee', NULL, '2026-03-04 06:03:18'),
+(36, 2, 'Deleted Employee Permanently', '5', '2026-03-04 06:03:32'),
+(37, 2, 'Deleted Employee Permanently', '17', '2026-03-04 06:04:10'),
+(38, 2, 'Restored Employee', NULL, '2026-03-04 06:08:20'),
+(39, 2, 'Deleted Employee Permanently', '22', '2026-03-04 06:09:19'),
+(40, 2, 'Restored Employee', NULL, '2026-03-04 06:09:30'),
+(41, 2, 'Restored Employee', NULL, '2026-03-04 06:09:31'),
+(42, 2, 'Deleted Employee Permanently', '15', '2026-03-04 06:09:42'),
+(43, 2, 'Deleted Employee Permanently', '7', '2026-03-04 06:10:10'),
+(44, 2, 'Deleted Employee Permanently', '3', '2026-03-04 06:10:42'),
+(45, 2, 'Deleted Employee Permanently', '8', '2026-03-04 06:10:59'),
+(46, 2, 'Deleted Employee Permanently', '10', '2026-03-04 06:11:01'),
+(47, 2, 'Deleted Employee Permanently', '13', '2026-03-04 06:11:06'),
+(48, 2, 'Deleted Employee Permanently', '14', '2026-03-04 06:12:49'),
+(49, 2, 'Restored Employee', NULL, '2026-03-04 06:14:58'),
+(50, 2, 'Deleted Employee Permanently', '23', '2026-03-04 06:16:47'),
+(51, 2, 'Deleted Employee Permanently', '21', '2026-03-04 06:17:01');
 
 -- --------------------------------------------------------
 
@@ -109,35 +151,24 @@ CREATE TABLE `employees` (
   `contact_number` varchar(20) DEFAULT NULL,
   `employment_status` varchar(20) DEFAULT NULL,
   `employee_type` varchar(30) DEFAULT NULL,
-  `date_hired` date NOT NULL
+  `date_hired` date NOT NULL,
+  `archived` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `employees`
 --
 
-INSERT INTO `employees` (`employee_id`, `user_id`, `first_name`, `middle_name`, `last_name`, `address`, `birthdate`, `civil_status`, `email`, `personal_email`, `position`, `account`, `cluster`, `contact_number`, `employment_status`, `employee_type`, `date_hired`) VALUES
-(1, 2, 'admin', NULL, 'admin', NULL, NULL, NULL, 'admin@ireply.com', NULL, 'superadmin', NULL, NULL, NULL, NULL, NULL, '0000-00-00'),
-(2, 7, 'dennis', NULL, 'Severino', NULL, NULL, NULL, 'test@gmail.com', NULL, 'csr', 'sample', NULL, NULL, 'Active', NULL, '2026-01-29'),
-(3, 8, 'Keviun', NULL, 'Figueroa', NULL, NULL, NULL, 'dennis@gmail.com', NULL, 'President', 'Pepsi', NULL, NULL, 'Active', NULL, '2026-01-29'),
-(4, 9, 'stella', NULL, 'eriman', NULL, NULL, NULL, 'stellamarieeriman@gmail.com', NULL, 'csr', 'voya', NULL, NULL, 'Active', NULL, '2026-01-30'),
-(5, 10, 'Eu Geuo', NULL, 'Vecino', NULL, NULL, NULL, 'eu@gmail.com', NULL, 'csr', 'pepsi', NULL, NULL, 'Active', NULL, '2026-02-05'),
-(6, 11, 'jan kevin', NULL, 'dilas', NULL, NULL, NULL, 'jankevin@gmail.com', NULL, 'csr', 'royal', NULL, NULL, 'Active', NULL, '2026-02-05'),
-(7, 12, 'johnray', NULL, 'eriman', NULL, NULL, NULL, 'johnray@gmail.com', NULL, 'agent', 'sample', NULL, NULL, 'Active', NULL, '2026-02-05'),
-(8, 13, 'yannie', NULL, 'eriman', NULL, NULL, NULL, 'yannie@gmail.com', NULL, 'CEO', 'voya', NULL, NULL, 'Active', NULL, '2026-02-06'),
-(9, 14, 'kenneth', NULL, 'De vera', NULL, NULL, NULL, 'kenneth@gmail.com', NULL, 'csr', 'pepsi', NULL, NULL, 'Active', NULL, '2026-02-11'),
-(10, 15, 'jaden', NULL, 'rivera', NULL, NULL, NULL, 'jaden@gmail.com', NULL, 'csr', 'Pepsi', NULL, NULL, 'Active', NULL, '2026-02-11'),
-(12, 18, 'kev', NULL, 'figs', NULL, NULL, NULL, 'kevs@gmail.com', NULL, 'vice pres', 'test', NULL, NULL, 'Active', NULL, '2026-02-12'),
-(13, 19, 'Dave', NULL, 'Marcellana', NULL, NULL, NULL, 'anyy@any.com', NULL, 'Utility', 'iReply', NULL, NULL, 'Active', NULL, '2026-02-13'),
-(14, 20, 'keviny', 'monteza', 'figgsss', 'ireply', '2026-02-16', 'Widowed', 'figs@gmail.com', 'kevin@gmail.com', 'Junior IT Technician', 'Smart Choice', NULL, '0976543212', 'Active', 'Probationary', '2026-02-16'),
-(15, 32, 'jems', 'jems', 'jems', 'ireply', '2002-08-23', 'Married', 'stella@gmail.com', 'jems@gmail.com', 'HR Lead', 'iReply Back Office Services', 'Cluster B', '09123421235', 'Active', 'Regular', '2026-02-17'),
-(16, 33, 'stella', 'stella', 'stellaa', 'ireply', '2002-08-23', 'Married', 'stellaa@gmail.com', 'stella@gmail.com', 'Sr. Recruitment Specialist', 'iReply Back Office Services', 'Cluster B', '09521511421', 'Active', 'Regular', '2026-02-17'),
-(17, 34, 'new', 'test', 'test', 'ireply', '2002-02-11', 'Married', 'new@gmail.com', 'new@gmail.com', 'HR Coordinator', 'RabbitRun', 'Cluster C', '098746253125', 'Active', 'Regular', '2026-02-18'),
-(18, 35, 'test2', 'test2', 'test2', 'iqor', '2002-11-20', 'Married', 'test2@gmail.com', 'test2@gmail.com', 'Accounting', 'NUSO', 'Cluster D', '095827361234', 'Active', 'Contractual', '2026-02-18'),
-(19, 37, 'jadenn', 'jaden', 'jaden', 'ireply', '2001-11-11', 'Widowed', 'jaden1@gmail.com', 'jaden1@gmail.com', 'Service Delivery Manager', 'SIPPIO', 'Night Support', '09876452612', 'Active', 'Probationary', '2026-02-20'),
-(20, 38, 'admin1', 'admin1', 'admin1', 'admin1@gmail.com', '2002-11-11', 'Single', 'admin1@gmail.com', 'admin1@gmail.com', 'HR Coordinator', 'iReply Back Office Services', 'Technical Team', '09521235612', 'Active', 'Regular', '2026-02-26'),
-(21, 39, 'Eu Geuo', 'Banasing', 'Vecino', 'Vista Alegre', '2001-08-27', 'Single', 'eu.ireply@gmail.com', 'eu@gmail.com', 'Head of Training', 'Telepath', 'Cluster B', '09919490401', 'Active', 'Regular', '2026-02-27'),
-(22, 41, 'E', 'e', 'e', 'j', '2050-01-05', '', 'eug.ireply@gmail.com', 'eu@gmail.com', 'SIP NOC Support Engineer', 'Vitale ENT', 'Cluster A', '09', 'Active', 'Regular', '2026-02-27');
+INSERT INTO `employees` (`employee_id`, `user_id`, `first_name`, `middle_name`, `last_name`, `address`, `birthdate`, `civil_status`, `email`, `personal_email`, `position`, `account`, `cluster`, `contact_number`, `employment_status`, `employee_type`, `date_hired`, `archived`) VALUES
+(1, 2, 'admin', NULL, 'admin', NULL, NULL, NULL, 'admin@ireply.com', NULL, 'superadmin', NULL, NULL, NULL, NULL, NULL, '0000-00-00', 0),
+(2, 7, 'dennis', NULL, 'Severino', NULL, NULL, NULL, 'test@gmail.com', NULL, 'csr', 'sample', NULL, NULL, 'Active', NULL, '2026-01-29', 0),
+(4, 9, 'stella', NULL, 'eriman', NULL, NULL, NULL, 'stellamarieeriman@gmail.com', NULL, 'csr', 'voya', NULL, NULL, 'Active', NULL, '2026-01-30', 1),
+(6, 11, 'jan kevin', 'dilag', 'dilas', 'mandalagan', '2016-02-09', NULL, 'jankevin@gmail.com', 'jankevin@gmail.com', 'csr', 'royal', 'Cluster B', '09321742123', 'Active', 'Regular', '2026-02-05', 1),
+(9, 14, 'kenneth', NULL, 'De vera', NULL, NULL, NULL, 'kenneth@gmail.com', NULL, 'csr', 'pepsi', NULL, NULL, 'Active', NULL, '2026-02-11', 1),
+(16, 33, 'stella', 'stella', 'stellaa', 'ireply', '2002-08-23', 'Married', 'stellaa@gmail.com', 'stella@gmail.com', 'Sr. Recruitment Specialist', 'iReply Back Office Services', 'Cluster B', '09521511421', 'Active', 'Regular', '2026-02-17', 0),
+(18, 35, 'test2', 'test2', 'test2', 'iqor', '2002-11-20', 'Married', 'test2@gmail.com', 'test2@gmail.com', 'Accounting', 'NUSO', 'Cluster D', '095827361234', 'Active', 'Contractual', '2026-02-18', 1),
+(19, 37, 'jadenn', 'jaden', 'jaden', 'ireply', '2001-11-11', 'Widowed', 'jaden1@gmail.com', 'jaden1@gmail.com', 'Service Delivery Manager', 'SIPPIO', 'Night Support', '09876452612', 'Active', 'Probationary', '2026-02-20', 0),
+(20, 38, 'admin1', 'admin1', 'admin1', 'admin1@gmail.com', '2002-11-11', 'Single', 'admin1@gmail.com', 'admin1@gmail.com', 'HR Coordinator', 'iReply Back Office Services', 'Technical Team', '09521235612', 'Active', 'Regular', '2026-02-26', 0);
 
 -- --------------------------------------------------------
 
@@ -171,6 +202,33 @@ CREATE TABLE `leave_requests` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `permissions`
+--
+
+CREATE TABLE `permissions` (
+  `permission_id` int(11) NOT NULL,
+  `permission_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `permissions`
+--
+
+INSERT INTO `permissions` (`permission_id`, `permission_name`) VALUES
+(1, 'Add Employee'),
+(2, 'Edit Employee'),
+(3, 'Delete Employee'),
+(4, 'Set Attendance'),
+(5, 'Edit Attendance'),
+(6, 'View Dashboard'),
+(7, 'View Team'),
+(8, 'View Attendance'),
+(9, 'View Employee List'),
+(10, 'Edit Profile');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `roles`
 --
 
@@ -189,6 +247,49 @@ INSERT INTO `roles` (`role_id`, `role_name`, `role_description`) VALUES
 (2, 'Admin', 'Administrator'),
 (3, 'Teamcoach', 'Team Coach'),
 (4, 'Employee', 'Regular Employee');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role_permissions`
+--
+
+CREATE TABLE `role_permissions` (
+  `role_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `role_permissions`
+--
+
+INSERT INTO `role_permissions` (`role_id`, `permission_id`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(1, 6),
+(1, 7),
+(1, 8),
+(1, 9),
+(1, 10),
+(2, 4),
+(2, 5),
+(2, 6),
+(2, 7),
+(2, 8),
+(2, 9),
+(2, 10),
+(3, 5),
+(3, 6),
+(3, 7),
+(3, 8),
+(3, 9),
+(4, 6),
+(4, 7),
+(4, 8),
+(4, 9);
 
 -- --------------------------------------------------------
 
@@ -217,61 +318,19 @@ INSERT INTO `schedules` (`schedule_id`, `employee_id`, `day_of_week`, `shift_typ
 (3, 2, 'Wednesday', 'Night', '21:00:00', '06:00:00', 'Onsite', '2026-01-29 09:41:56'),
 (4, 2, 'Thursday', 'Night', '21:00:00', '06:00:00', 'Onsite', '2026-01-29 09:41:56'),
 (5, 2, 'Friday', 'Morning', '09:00:00', '18:00:00', 'WFH', '2026-01-29 09:41:56'),
-(6, 3, 'Monday', 'Morning', '08:00:00', '17:00:00', 'Onsite', '2026-01-29 09:49:01'),
-(7, 3, 'Tuesday', 'Night', '21:00:00', '06:00:00', 'WFH', '2026-01-29 09:49:01'),
 (8, 4, 'Monday', 'Morning', '09:00:00', '18:00:00', 'Onsite', '2026-01-29 23:44:40'),
 (9, 4, 'Tuesday', 'Morning', '09:00:00', '18:00:00', 'Onsite', '2026-01-29 23:44:40'),
 (10, 4, 'Wednesday', 'Night', '21:00:00', '06:00:00', 'WFH', '2026-01-29 23:44:40'),
 (11, 4, 'Thursday', 'Night', '21:00:00', '06:00:00', 'WFH', '2026-01-29 23:44:40'),
 (12, 4, 'Friday', 'Morning', '09:00:00', '18:00:00', 'Onsite', '2026-01-29 23:44:40'),
-(13, 5, 'Monday', 'Night', '21:00:00', '06:00:00', 'Onsite', '2026-02-05 09:57:46'),
-(14, 5, 'Tuesday', 'Night', '21:00:00', '06:00:00', 'Onsite', '2026-02-05 09:57:46'),
-(15, 5, 'Wednesday', 'Night', '21:00:00', '06:00:00', 'Onsite', '2026-02-05 09:57:46'),
-(16, 5, 'Thursday', 'Morning', '09:00:00', '18:00:00', 'Onsite', '2026-02-05 09:57:46'),
-(17, 5, 'Friday', 'Morning', '09:00:00', '18:00:00', 'Onsite', '2026-02-05 09:57:46'),
 (18, 6, 'Monday', 'Night', '21:00:00', '05:00:00', 'Onsite', '2026-02-05 10:04:16'),
-(19, 7, 'Monday', 'Night', '21:00:00', '06:00:00', 'Onsite', '2026-02-05 10:31:43'),
-(20, 7, 'Tuesday', 'Night', '21:00:00', '06:00:00', 'Onsite', '2026-02-05 10:31:43'),
-(21, 7, 'Wednesday', 'Night', '21:00:00', '06:00:00', 'Onsite', '2026-02-05 10:31:43'),
-(22, 7, 'Thursday', 'Morning', '09:00:00', '18:00:00', 'WFH', '2026-02-05 10:31:43'),
-(23, 7, 'Friday', 'Morning', '09:00:00', '18:00:00', 'WFH', '2026-02-05 10:31:43'),
-(24, 8, 'Monday', 'Morning', '09:00:00', '18:00:00', 'Onsite', '2026-02-06 11:59:35'),
-(25, 8, 'Wednesday', 'Morning', '09:00:00', '18:00:00', 'Onsite', '2026-02-06 11:59:35'),
-(26, 8, 'Tuesday', 'Night', '21:00:00', '06:00:00', 'Onsite', '2026-02-06 11:59:35'),
-(27, 8, 'Thursday', 'Night', '21:00:00', '06:00:00', 'Onsite', '2026-02-06 11:59:35'),
-(28, 8, 'Friday', 'Night', '21:00:00', '06:00:00', 'Onsite', '2026-02-06 11:59:35'),
 (29, 9, 'Wednesday', 'Morning', '21:00:00', '20:00:00', 'Onsite', '2026-02-11 01:20:59'),
 (30, 9, 'Thursday', 'Morning', '21:00:00', '20:00:00', 'Onsite', '2026-02-11 01:20:59'),
 (31, 9, 'Tuesday', 'Night', '08:00:00', '09:00:00', 'Onsite', '2026-02-11 01:20:59'),
 (32, 9, 'Friday', 'Night', '08:00:00', '09:00:00', 'Onsite', '2026-02-11 01:20:59'),
-(33, 10, 'Monday', 'Morning', '09:00:00', '18:00:00', 'Onsite', '2026-02-11 02:00:32'),
-(34, 10, 'Tuesday', 'Morning', '09:00:00', '18:00:00', 'Onsite', '2026-02-11 02:00:32'),
-(35, 10, 'Thursday', 'Morning', '09:00:00', '18:00:00', 'WFH', '2026-02-11 02:00:32'),
-(36, 10, 'Wednesday', 'Night', '21:00:00', '06:00:00', 'Onsite', '2026-02-11 02:00:32'),
-(37, 10, 'Friday', 'Night', '21:00:00', '06:00:00', 'Onsite', '2026-02-11 02:00:32'),
-(43, 12, 'Monday', 'Morning', '08:00:00', '17:00:00', 'Onsite', '2026-02-12 07:21:14'),
-(44, 12, 'Wednesday', 'Morning', '08:00:00', '17:00:00', 'Onsite', '2026-02-12 07:21:14'),
-(45, 12, 'Tuesday', 'Night', '21:00:00', '06:00:00', 'WFH', '2026-02-12 07:21:14'),
-(46, 12, 'Thursday', 'Night', '21:00:00', '06:00:00', 'WFH', '2026-02-12 07:21:14'),
-(47, 12, 'Friday', 'Night', '21:00:00', '06:00:00', 'WFH', '2026-02-12 07:21:14'),
-(48, 13, 'Monday', '', '00:00:00', '00:00:00', 'WFH', '2026-02-13 08:50:50'),
-(49, 13, 'Tuesday', 'Night', '17:00:00', '05:00:00', 'Onsite', '2026-02-13 08:50:50'),
-(50, 13, 'Wednesday', 'Night', '17:00:00', '03:00:00', 'WFH', '2026-02-13 08:50:50'),
-(51, 13, 'Thursday', 'Night', '18:00:00', '03:00:00', 'Onsite', '2026-02-13 08:50:50'),
-(52, 13, 'Friday', 'Night', '18:00:00', '03:00:00', 'Onsite', '2026-02-13 08:50:50'),
-(53, 14, 'Tuesday', '', '18:00:00', '03:00:00', 'Onsite', '2026-02-19 03:13:28'),
-(54, 14, 'Wednesday', '', '18:00:00', '03:00:00', 'Onsite', '2026-02-19 03:13:28'),
-(55, 15, 'Wednesday', 'Night', '21:00:00', '08:00:00', 'WFH', '2026-02-19 03:15:02'),
-(56, 15, 'Thursday', 'Night', '21:00:00', '08:00:00', 'WFH', '2026-02-19 03:15:02'),
-(57, 15, 'Friday', 'Night', '21:00:00', '08:00:00', 'WFH', '2026-02-19 03:15:02'),
 (58, 16, 'Monday', 'Mid', '17:00:00', '02:00:00', 'Hybrid', '2026-02-19 03:19:03'),
 (59, 16, 'Wednesday', 'Mid', '17:00:00', '02:00:00', 'Hybrid', '2026-02-19 03:19:03'),
-(60, 16, 'Thursday', 'Mid', '17:00:00', '02:00:00', 'Hybrid', '2026-02-19 03:19:03'),
-(61, 17, 'Wednesday', 'Night', '21:00:00', '06:00:00', 'Onsite', '2026-02-19 03:21:21'),
-(62, 17, 'Thursday', 'Night', '21:00:00', '06:00:00', 'Onsite', '2026-02-19 03:21:21'),
-(63, 17, 'Friday', 'Night', '21:00:00', '06:00:00', 'Onsite', '2026-02-19 03:21:21'),
-(64, 17, 'Monday', 'Morning', '09:00:00', '18:00:00', 'Hybrid', '2026-02-19 03:21:21'),
-(65, 17, 'Tuesday', 'Morning', '09:00:00', '18:00:00', 'Hybrid', '2026-02-19 03:21:21');
+(60, 16, 'Thursday', 'Mid', '17:00:00', '02:00:00', 'Hybrid', '2026-02-19 03:19:03');
 
 -- --------------------------------------------------------
 
@@ -367,13 +426,69 @@ INSERT INTO `users` (`user_id`, `username`, `password_hash`, `role_id`, `created
 (34, 'new@gmail.com', '$2y$10$id7cOlM1dH/cMHnMtyKV4ul8WBF5SgdQaagTbdRR7sDQOsGcz.j1W', 4, '2026-02-18 15:46:56'),
 (35, 'test2@gmail.com', '$2y$10$7DMKRw.KqnLjXp7CAP4OP.ViRORgkBjKgleeCXNIDPR6sJ2Lyn8pi', 4, '2026-02-18 15:48:46'),
 (37, 'jaden1@gmail.com', '$2y$10$BGKaFnbHG2juvvB.HC8sv.ruH/rvbkGftNW5DmIaJVdtvORpgFcX6', 4, '2026-02-20 10:28:20'),
-(38, 'admin1@gmail.com', '$2y$10$GbYhQz9I2M1eAQkKEiaYvOE7s3/JJzrYI7o63Q7B9c1G9Iw71rxbG', 4, '2026-02-26 09:31:30'),
+(38, 'admin1@gmail.com', '$2y$10$GbYhQz9I2M1eAQkKEiaYvOE7s3/JJzrYI7o63Q7B9c1G9Iw71rxbG', 2, '2026-02-26 09:31:30'),
 (39, 'eu.ireply@gmail.com', '$2y$10$IBKepYJLwO2GwvU1Ne7vROyXXIXyIP1P4xzroHpofbW6dUNThVkRa', 4, '2026-02-27 11:49:29'),
-(41, 'eug.ireply@gmail.com', '$2y$10$H0Dp7Hv2ZClWPT4MtcKmfe1QMb4Tt58fDvwYXAvjNO9uu0ChQWo36', 4, '2026-02-27 11:52:10');
+(41, 'eug.ireply@gmail.com', '$2y$10$H0Dp7Hv2ZClWPT4MtcKmfe1QMb4Tt58fDvwYXAvjNO9uu0ChQWo36', 4, '2026-02-27 11:52:10'),
+(42, 'kev@gmail.com', '$2y$10$e7czirYvDHFn8G7UYFUR6Ot.63LfpLegi5QR0OCG/CHjNiVXuIJ5e', 4, '2026-03-04 14:16:31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_permissions`
+--
+
+CREATE TABLE `user_permissions` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
+  `is_allowed` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_permissions`
+--
+
+INSERT INTO `user_permissions` (`id`, `user_id`, `permission_id`, `is_allowed`) VALUES
+(1, 38, 1, 0),
+(2, 38, 2, 0),
+(3, 38, 3, 0),
+(4, 38, 4, 0),
+(5, 38, 5, 0),
+(6, 38, 6, 1),
+(7, 38, 7, 1),
+(8, 38, 8, 1),
+(9, 38, 9, 1),
+(10, 38, 10, 0),
+(21, 7, 1, 0),
+(22, 7, 2, 0),
+(23, 7, 3, 0),
+(24, 7, 4, 0),
+(25, 7, 5, 0),
+(26, 7, 6, 1),
+(27, 7, 7, 1),
+(28, 7, 8, 0),
+(29, 7, 9, 1),
+(30, 7, 10, 0),
+(51, 15, 1, 0),
+(52, 15, 2, 0),
+(53, 15, 3, 0),
+(54, 15, 4, 0),
+(55, 15, 5, 0),
+(56, 15, 6, 0),
+(57, 15, 7, 1),
+(58, 15, 8, 1),
+(59, 15, 9, 0),
+(60, 15, 10, 0);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `activity_logs`
+--
+ALTER TABLE `activity_logs`
+  ADD PRIMARY KEY (`log_id`);
 
 --
 -- Indexes for table `announcements`
@@ -418,10 +533,23 @@ ALTER TABLE `leave_requests`
   ADD KEY `reviewed_by` (`reviewed_by`);
 
 --
+-- Indexes for table `permissions`
+--
+ALTER TABLE `permissions`
+  ADD PRIMARY KEY (`permission_id`);
+
+--
 -- Indexes for table `roles`
 --
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`role_id`);
+
+--
+-- Indexes for table `role_permissions`
+--
+ALTER TABLE `role_permissions`
+  ADD PRIMARY KEY (`role_id`,`permission_id`),
+  ADD KEY `permission_id` (`permission_id`);
 
 --
 -- Indexes for table `schedules`
@@ -463,8 +591,21 @@ ALTER TABLE `users`
   ADD KEY `role_id` (`role_id`);
 
 --
+-- Indexes for table `user_permissions`
+--
+ALTER TABLE `user_permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_user_permission` (`user_id`,`permission_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `activity_logs`
+--
+ALTER TABLE `activity_logs`
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `announcements`
@@ -488,7 +629,7 @@ ALTER TABLE `break_logs`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `holidays`
@@ -501,6 +642,12 @@ ALTER TABLE `holidays`
 --
 ALTER TABLE `leave_requests`
   MODIFY `leave_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `permissions`
+--
+ALTER TABLE `permissions`
+  MODIFY `permission_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -536,7 +683,13 @@ ALTER TABLE `time_logs`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+
+--
+-- AUTO_INCREMENT for table `user_permissions`
+--
+ALTER TABLE `user_permissions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- Constraints for dumped tables
@@ -572,6 +725,13 @@ ALTER TABLE `employees`
 ALTER TABLE `leave_requests`
   ADD CONSTRAINT `leave_requests_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`),
   ADD CONSTRAINT `leave_requests_ibfk_2` FOREIGN KEY (`reviewed_by`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `role_permissions`
+--
+ALTER TABLE `role_permissions`
+  ADD CONSTRAINT `role_permissions_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `role_permissions_ibfk_2` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`permission_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `schedules`
