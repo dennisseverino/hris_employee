@@ -1,34 +1,51 @@
 <?php
 // ================= CORS =================
-header("Access-Control-Allow-Origin: http://localhost:5173");
-header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
-header("Access-Control-Allow-Credentials: true");
-header("Content-Type: application/json");
+require_once "../cors.php";
 
-// Handle preflight request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
+session_start();
+
 require_once __DIR__ . '/../config/database.php';
 
+// ================= INPUT =================
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!$data || !isset($data['employee_id'])) {
-    echo json_encode(["success" => false, "message" => "Invalid ID"]);
+    echo json_encode([
+        "success" => false,
+        "message" => "Invalid employee ID"
+    ]);
     exit();
 }
 
-$stmt = $conn->prepare("DELETE FROM employees WHERE employee_id = ?");
-$stmt->bind_param("i", $data['employee_id']);
+$employee_id = $data['employee_id'];
+
+
+// ================= ARCHIVE EMPLOYEE =================
+
+$stmt = $conn->prepare("
+UPDATE employees
+SET archived = 1
+WHERE employee_id = ?
+");
+
+$stmt->bind_param("i", $employee_id);
 
 if ($stmt->execute()) {
-    echo json_encode(["success" => true]);
+
+    echo json_encode([
+        "success" => true
+    ]);
+
 } else {
+
     echo json_encode([
         "success" => false,
         "error" => $stmt->error
     ]);
+
 }
