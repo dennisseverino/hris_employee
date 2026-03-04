@@ -1,5 +1,5 @@
 <?php
-// ================= CORS =================
+
 require_once "../cors.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -7,13 +7,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-// ================= SESSION =================
 session_start();
-
-// ================= DB =================
 require_once "../config/database.php";
 
-// ================= INPUT =================
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!$data || empty($data['username']) || empty($data['password'])) {
@@ -27,23 +23,24 @@ if (!$data || empty($data['username']) || empty($data['password'])) {
 $username = $data['username'];
 $password = $data['password'];
 
-// ================= QUERY USER =================
+
+// ================= GET USER =================
+
 $stmt = $conn->prepare("
-    SELECT 
-        u.user_id,
-        u.username,
-        u.password_hash,
-        u.role_id,
-        r.role_name
-    FROM users u
-    INNER JOIN roles r ON u.role_id = r.role_id
-    WHERE u.username = ?
-    LIMIT 1
+SELECT 
+    u.user_id,
+    u.username,
+    u.password_hash,
+    u.role_id,
+    r.role_name
+FROM users u
+INNER JOIN roles r ON u.role_id = r.role_id
+WHERE u.username = ?
+LIMIT 1
 ");
 
 $stmt->bind_param("s", $username);
 $stmt->execute();
-
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
@@ -56,7 +53,9 @@ if ($result->num_rows === 0) {
 
 $user = $result->fetch_assoc();
 
+
 // ================= VERIFY PASSWORD =================
+
 if (!password_verify($password, $user['password_hash'])) {
     echo json_encode([
         "success" => false,
@@ -65,12 +64,14 @@ if (!password_verify($password, $user['password_hash'])) {
     exit();
 }
 
+
 // ================= GET EMPLOYEE =================
+
 $empStmt = $conn->prepare("
-    SELECT employee_id
-    FROM employees
-    WHERE user_id = ?
-    LIMIT 1
+SELECT employee_id
+FROM employees
+WHERE user_id = ?
+LIMIT 1
 ");
 
 $empStmt->bind_param("i", $user['user_id']);
@@ -87,51 +88,13 @@ if ($empResult->num_rows === 0) {
 
 $employee = $empResult->fetch_assoc();
 
-// ================= LOGIN SUCCESS =================
-$_SESSION['user_id']     = $user['user_id'];
-$_SESSION['employee_id'] = $employee['employee_id']; // 🔥 THIS FIXES EVERYTHING
-$_SESSION['username']    = $user['username'];
-$_SESSION['role_id']     = $user['role_id'];
-$_SESSION['role_name']   = $user['role_name'];
+// ================= ROLE PERMISSIONS =================
 
-
-echo json_encode([
-    "success" => true,
-    "user" => [
-        "user_id" => $user['user_id'],
-        "username" => $user['username'],
-        "role" => $user['role_name']
-    ]
-]);
-
-// ================= FETCH ROLE PERMISSIONS =================
-$permStmt = $conn->prepare("
-    SELECT p.permission_name
+$rolePermStmt = $conn->prepare("
+    SELECT p.permission_id, p.permission_name
     FROM role_permissions rp
     INNER JOIN permissions p 
         ON rp.permission_id = p.permission_id
-    WHERE rp.role_id = ?
-");
-
-$permStmt->bind_param("i", $user['role_id']);
-$permStmt->execute();
-
-$permResult = $permStmt->get_result();
-
-$permissions = [];
-
-while ($row = $permResult->fetch_assoc()) {
-    $permissions[] = $row['permission_name'];
-}
-
-$_SESSION['permissions'] = $permissions;
-
-// ================= GET ROLE PERMISSIONS =================
-
-$rolePermStmt = $conn->prepare("
-    SELECT p.permission_name, p.permission_id
-    FROM role_permissions rp
-    INNER JOIN permissions p ON rp.permission_id = p.permission_id
     WHERE rp.role_id = ?
 ");
 
@@ -146,7 +109,7 @@ while ($row = $rolePermResult->fetch_assoc()) {
 }
 
 
-// ================= APPLY USER OVERRIDES =================
+// ================= USER OVERRIDES =================
 
 $userPermStmt = $conn->prepare("
     SELECT permission_id, is_allowed
@@ -160,15 +123,50 @@ $userPermResult = $userPermStmt->get_result();
 
 while ($row = $userPermResult->fetch_assoc()) {
 
+    $permId = $row['permission_id'];
+
     if ($row['is_allowed']) {
-        // force allow
-        $permissions[$row['permission_id']] = $permissions[$row['permission_id']] ?? null;
+
+        $permStmt = $conn->prepare("
+            SELECT permission_name 
+            FROM permissions 
+            WHERE permission_id = ?
+        ");
+
+        $permStmt->bind_param("i", $permId);
+        $permStmt->execute();
+        $permResult = $permStmt->get_result();
+        $perm = $permResult->fetch_assoc();
+
+        $permissions[$permId] = $perm['permission_name'];
+
     } else {
-        // force deny
-        unset($permissions[$row['permission_id']]);
+
+        unset($permissions[$permId]);
+
     }
 }
 
+$_SESSION['permissions'] = array_values($permissions);
 
-// convert to plain list
+// ================= SAVE SESSION =================
+
+$_SESSION['user_id']     = $user['user_id'];
+$_SESSION['employee_id'] = $employee['employee_id'];
+$_SESSION['username']    = $user['username'];
+$_SESSION['role_id']     = $user['role_id'];
+$_SESSION['role_name']   = $user['role_name'];
+
 $_SESSION['permissions'] = array_values(array_filter($permissions));
+
+
+// ================= RESPONSE =================
+
+echo json_encode([
+    "success" => true,
+    "user" => [
+        "user_id" => $user['user_id'],
+        "username" => $user['username'],
+        "role" => $user['role_name']
+    ]
+]);

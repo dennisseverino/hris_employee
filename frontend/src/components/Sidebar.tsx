@@ -8,6 +8,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import '../styles/sidebar.css';
 
+
+
 const Sidebar = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
@@ -38,6 +40,10 @@ const Sidebar = () => {
     navigate('/', { replace: true });
   };
 
+  const hasPermission = (permission: string) => {
+    return user?.permissions?.includes(permission);
+  };
+
   return (
     <aside className="sidebar">
       <img src="/src/assets/ireply.png" className="sidebar-logo" alt="" />
@@ -56,28 +62,25 @@ const Sidebar = () => {
 
       <nav className="menu">
 
-        {user?.permissions?.includes("View Dashboard") && (
+        {hasPermission("View Dashboard") && (
           <NavLink to="/dashboard" className={({ isActive }) => isActive ? 'active' : ''}>
             Dashboard
           </NavLink>
         )}
 
-        {user?.permissions?.includes("View Team") && (
+        {hasPermission("View Team") && (
           <NavLink to="/team" className={({ isActive }) => isActive ? 'active' : ''}>
             Team
           </NavLink>
         )}
 
-        {user?.permissions?.includes("View Attendance") && (
+        {hasPermission("View Attendance") && (
           <NavLink to="/attendance" className={({ isActive }) => isActive ? 'active' : ''}>
             Attendance
           </NavLink>
         )}
 
-        {/* Employee Dropdown */}
-        {(user?.permissions?.includes("View Employee List") ||
-          user?.permissions?.includes("Set Attendance")) && (
-
+        {(hasPermission("View Employee List") || hasPermission("Set Attendance")) && (
           <div className="dropdown">
             <div
               className="dropdown-header"
@@ -90,14 +93,14 @@ const Sidebar = () => {
             {employeeOpen && (
               <div className="dropdown-content">
 
-                {user?.permissions?.includes("Set Attendance") && (
-                  <NavLink to="/schedule" className={({ isActive }) => isActive ? 'active' : ''}>
+                {hasPermission("Set Attendance") && (
+                  <NavLink to="/schedule">
                     Schedule
                   </NavLink>
                 )}
 
-                {user?.permissions?.includes("View Employee List") && (
-                  <NavLink to="/employee-list" className={({ isActive }) => isActive ? 'active' : ''}>
+                {hasPermission("View Employee List") && (
+                  <NavLink to="/employee-list">
                     Lists
                   </NavLink>
                 )}
@@ -108,10 +111,7 @@ const Sidebar = () => {
         )}
 
         {user?.role_name === "Superadmin" && (
-          <NavLink
-            to="/ControlPanel"
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
+          <NavLink to="/ControlPanel">
             Control Panel
           </NavLink>
         )}
