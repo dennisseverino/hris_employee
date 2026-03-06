@@ -167,6 +167,36 @@
   font-size: 13px;
 }
 
+
+.control-panel-restore-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  margin-right: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.control-panel-restore-btn:hover {
+  background-color: #77dc7b;
+}
+
+.control-panel-delete-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.control-panel-delete-btn:hover {
+  background-color: #e46b77;
+}
+
 /* ===== Logs Section ===== */
 
 .control-panel-logs-wrapper {

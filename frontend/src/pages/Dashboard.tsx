@@ -49,7 +49,7 @@ const Dashboard = () => {
   // ======================
   const fetchAttendance = async () => {
     const res = await fetch(
-      'http://localhost/employee-system/backend/employees/attendance_today.php',
+      'http://localhost/hris/backend/employees/attendance_today.php',
       { credentials: 'include' }
     );
 
@@ -70,7 +70,7 @@ const Dashboard = () => {
   // ======================
   useEffect(() => {
     fetch(
-      'http://localhost/employee-system/backend/employees/announcements_today.php',
+      'http://localhost/hris/backend/employees/announcements_today.php',
       { credentials: 'include' }
     )
       .then(res => res.json())
@@ -82,7 +82,7 @@ const Dashboard = () => {
   // ======================
   useEffect(() => {
     fetch(
-      'http://localhost/employee-system/backend/employees/today_schedule.php',
+      'http://localhost/hris/backend/employees/today_schedule.php',
       { credentials: 'include' }
     )
       .then(res => res.json())
@@ -94,7 +94,7 @@ const Dashboard = () => {
   // ======================
   useEffect(() => {
     fetch(
-      'http://localhost/employee-system/backend/employees/attendance_today_list.php',
+      'http://localhost/hris/backend/employees/attendance_today_list.php',
       { credentials: 'include' }
     )
       .then(res => res.json())
@@ -109,7 +109,7 @@ const Dashboard = () => {
     setLoading(true);
 
     const res = await fetch(
-      'http://localhost/employee-system/backend/employees/time_in.php',
+      'http://localhost/hris/backend/employees/time_in.php',
       { method: 'POST', credentials: 'include' }
     );
 
@@ -122,7 +122,7 @@ const Dashboard = () => {
     setLoading(true);
 
     const res = await fetch(
-      'http://localhost/employee-system/backend/employees/time_out.php',
+      'http://localhost/hris/backend/employees/time_out.php',
       { method: 'POST', credentials: 'include' }
     );
 
@@ -132,7 +132,7 @@ const Dashboard = () => {
 
   const handleBreakStart = async () => {
     await fetch(
-      'http://localhost/employee-system/backend/employees/break_start.php',
+      'http://localhost/hris/backend/employees/break_start.php',
       { method: 'POST', credentials: 'include' }
     );
   };
@@ -143,7 +143,7 @@ const Dashboard = () => {
 
   useEffect(() => {
   fetch(
-    'http://localhost/employee-system/backend/employees/holidays_today.php',
+    'http://localhost/hris/backend/employees/holidays_today.php',
     { credentials: 'include' }
   )
     .then(res => res.json())

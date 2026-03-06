@@ -51,7 +51,7 @@ const EmployeeList = () => {
   const fetchEmployees = async () => {
     try {
       const res = await fetch(
-        'http://localhost/employee-system/backend/employees/get_employees.php',
+        'http://localhost/hris/backend/employees/get_employees.php',
         { credentials: 'include' }
       );
 
@@ -87,7 +87,7 @@ const EmployeeList = () => {
 
     try {
       const res = await fetch(
-        'http://localhost/employee-system/backend/employees/delete_employee.php',
+        'http://localhost/hris/backend/employees/delete_employee.php',
         {
           method: 'POST',
           credentials: 'include',

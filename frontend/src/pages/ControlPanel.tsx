@@ -46,7 +46,7 @@ const ControlPanel = () => {
 
   const fetchRoles = async () => {
     const res = await fetch(
-      "http://localhost/employee-system/backend/control_panel/get_roles_with_permissions.php",
+      "http://localhost/hris/backend/control_panel/get_roles_with_permissions.php",
       { credentials: "include" }
     );
 
@@ -63,7 +63,7 @@ const ControlPanel = () => {
 
   const fetchUsers = async () => {
     const res = await fetch(
-      "http://localhost/employee-system/backend/control_panel/get_users_with_permissions.php",
+      "http://localhost/hris/backend/control_panel/get_users_with_permissions.php",
       { credentials: "include" }
     );
 
@@ -101,7 +101,7 @@ const ControlPanel = () => {
     if (!selectedRole) return;
 
     await fetch(
-      "http://localhost/employee-system/backend/control_panel/update_role_permissions.php",
+      "http://localhost/hris/backend/control_panel/update_role_permissions.php",
       {
         method: "POST",
         headers: {
@@ -128,7 +128,7 @@ const ControlPanel = () => {
   const handleOpenUserPermissions = async (user: UserRow) => {
 
     const res = await fetch(
-      `http://localhost/employee-system/backend/control_panel/get_user_permissions.php?user_id=${user.id}`,
+      `http://localhost/hris/backend/control_panel/get_user_permissions.php?user_id=${user.id}`,
       { credentials: "include" }
     );
 
@@ -151,12 +151,14 @@ const ControlPanel = () => {
     );
   };
 
-  const saveUserPermissions = async () => {
+const saveUserPermissions = async () => {
 
-    if (!selectedUser) return;
+  if (!selectedUser) return;
 
-    await fetch(
-      "http://localhost/employee-system/backend/control_panel/update_user_permissions.php",
+  try {
+
+    const res = await fetch(
+      "http://localhost/hris/backend/control_panel/update_user_permissions.php",
       {
         method: "POST",
         headers: {
@@ -170,7 +172,31 @@ const ControlPanel = () => {
       }
     );
 
-    setSelectedUser(null);
+    const text = await res.text();
+    console.log("SERVER RESPONSE:", text);
+
+    const data = JSON.parse(text);
+
+    if (data.success) {
+
+      alert("Permissions updated successfully ✅");
+
+        setSelectedUser(null);   // close modal
+        fetchUsers();            // refresh table
+
+      } else {
+
+        alert(data.message || "Failed to update permissions");
+
+      }
+
+    } catch (err) {
+
+      console.error(err);
+      alert("Server error");
+
+    }
+
   };
 
   /* =========================
@@ -191,7 +217,7 @@ const ControlPanel = () => {
   const fetchLogs = async () => {
 
   const res = await fetch(
-    "http://localhost/employee-system/backend/control_panel/get_logs.php",
+    "http://localhost/hris/backend/control_panel/get_logs.php",
     { credentials: "include" }
   );
 
@@ -219,7 +245,7 @@ useEffect(() => {
   const fetchArchivedUsers = async () => {
 
     const res = await fetch(
-      "http://localhost/employee-system/backend/control_panel/get_archived_users.php",
+      "http://localhost/hris/backend/control_panel/get_archived_users.php",
       { credentials: "include" }
     );
 
@@ -242,7 +268,7 @@ useEffect(() => {
 const restoreUser = async (id: number) => {
 
   await fetch(
-    "http://localhost/employee-system/backend/control_panel/restore_user.php",
+    "http://localhost/hris/backend/control_panel/restore_user.php",
     {
       method: "POST",
       credentials: "include",
@@ -257,7 +283,7 @@ const restoreUser = async (id: number) => {
 const deleteUser = async (id: number) => {
 
   const res = await fetch(
-    `http://localhost/employee-system/backend/control_panel/delete_user_permanently.php?employee_id=${id}`,
+    `http://localhost/hris/backend/control_panel/delete_user_permanently.php?employee_id=${id}`,
     {
       method: "POST",
       credentials: "include"
@@ -437,6 +463,7 @@ const deleteUser = async (id: number) => {
                       <td>
 
                         <button
+                          className="control-panel-restore-btn"
                           onClick={() => {
                             if (confirm("Restore this employee?")) {
                               restoreUser(user.employee_id);
@@ -447,6 +474,7 @@ const deleteUser = async (id: number) => {
                         </button>
 
                         <button
+                          className="control-panel-delete-btn"
                           onClick={() => {
                             if (confirm("Permanently delete this employee?")) {
                               deleteUser(user.employee_id);

@@ -1,9 +1,5 @@
 <?php
-header("Access-Control-Allow-Origin: http://localhost:5173");
-header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
-header("Access-Control-Allow-Credentials: true");
-header("Content-Type: application/json");
+require_once "../cors.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -25,6 +21,15 @@ if (!$data) {
 
 $conn->begin_transaction();
 
+$check = $conn->prepare("SELECT user_id FROM users WHERE email = ?");
+$check->bind_param("s", $data['email']);
+$check->execute();
+$result = $check->get_result();
+
+if ($result->num_rows > 0) {
+    throw new Exception("Email already exists.");
+}
+
 try {
 
     // ================= PASSWORD GENERATION =================
@@ -37,7 +42,7 @@ try {
     $role_id = 4; // Employee role
 
     $stmtUser = $conn->prepare("
-        INSERT INTO users (username, password_hash, role_id)
+        INSERT INTO users (email, password, role_id)
         VALUES (?, ?, ?)
     ");
 
@@ -65,19 +70,18 @@ try {
             personal_email,
             position,
             account,
-            cluster,
             contact_number,
             employment_status,
             employee_type,
             date_hired
         )
         VALUES (
-            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Active', ?, CURDATE()
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Active', ?, CURDATE()
         )
     ");
 
     $stmtEmp->bind_param(
-        "isssssssssssss",
+        "issssssssssss",
         $user_id,
         $data['first_name'],
         $data['middle_name'],
@@ -89,7 +93,6 @@ try {
         $data['personal_email'],
         $data['position'],
         $data['account'],
-        $data['cluster'],
         $data['contact_number'],
         $data['employee_type']
     );
@@ -101,7 +104,7 @@ try {
     echo json_encode([
         "success" => true,
         "generated_account" => [
-            "username" => $data['email'],
+            "email" => $data['email'],
             "password" => $plainPassword
         ]
     ]);

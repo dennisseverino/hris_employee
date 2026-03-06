@@ -13,7 +13,7 @@ require_once "../config/database.php";
 $result = $conn->query("
 SELECT 
     l.log_id,
-    u.username,
+    u.email,
     l.action,
     l.target,
     l.created_at
@@ -29,7 +29,7 @@ while ($row = $result->fetch_assoc()) {
 
     $logs[] = [
         "id" => $row["log_id"],
-        "user" => $row["username"],
+        "user" => $row["email"],
         "action" => $row["action"],
         "target" => $row["target"],
         "date" => $row["created_at"]

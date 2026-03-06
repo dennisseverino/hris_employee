@@ -56,7 +56,7 @@ function App() {
       <Route
         path="/ControlPanel"
         element={
-          <ProtectedRoute allowedRoles={["Superadmin"]}>
+          <ProtectedRoute requiredPermission="Access Control Panel">
             <ControlPanel />
           </ProtectedRoute>
         }

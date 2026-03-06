@@ -2,7 +2,7 @@
 $host = "localhost";
 $user = "root";
 $password = "";
-$database = "hris_db";
+$database = "system_hris_db";
 
 $conn = new mysqli($host, $user, $password, $database);
 

@@ -6,7 +6,7 @@ import '../styles/login.css';
 const Login = () => {
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -17,12 +17,12 @@ const Login = () => {
 
     try {
       const res = await fetch(
-        'http://localhost/employee-system/backend/auth/login.php',
+        'http://localhost/hris/backend/auth/login.php',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            username,
+            email,         // reuse email as username
             password
           }),
           credentials: 'include' // 🔑 IMPORTANT (sessions)
@@ -35,7 +35,7 @@ const Login = () => {
 
         // Fetch session permissions
         const sessionRes = await fetch(
-          'http://localhost/employee-system/backend/auth/get_session.php',
+          'http://localhost/hris/backend/auth/get_session.php',
           { credentials: 'include' }
         );
 
@@ -51,7 +51,7 @@ const Login = () => {
         navigate('/dashboard', { replace: true });
       }
       else {
-              setError(data.message || 'Invalid username or password');
+              setError(data.message || 'Invalid email or password');
             }
 
           } catch (err) {
@@ -66,9 +66,9 @@ const Login = () => {
     <div className="container">
       <div className="login-container">
         <LoginCard
-          email={username}              // reuse input visually
+          email={email}
           password={password}
-          setEmail={setUsername}        // username instead of email
+          setEmail={setEmail}
           setPassword={setPassword}
           onLogin={handleLogin}
           error={error}

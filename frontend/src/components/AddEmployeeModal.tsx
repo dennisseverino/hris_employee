@@ -162,7 +162,7 @@ const AddEmployeeScheduleModal = ({
       setLoading(true);
 
       const res = await fetch(
-        "http://localhost/employee-system/backend/employees/add_employee_schedule.php",
+        "http://localhost/hris/backend/employees/add_employee_schedule.php",
         {
           method: "POST",
           credentials: "include",

@@ -46,7 +46,7 @@ const Schedule = () => {
   const fetchEmployees = async () => {
     try {
       const res = await fetch(
-        "http://localhost/employee-system/backend/employees/get_schedule_employees.php",
+        "http://localhost/hris/backend/employees/get_schedule_employees.php",
         { credentials: "include" }
       );
 

@@ -20,9 +20,9 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// ================= GET ROLE + CLUSTER =================
+// ================= GET ROLE + CLUSTER_id =================
 $stmtUser = $conn->prepare("
-    SELECT r.role_name, e.cluster
+    SELECT r.role_name, e.cluster_id
     FROM users u
     JOIN roles r ON u.role_id = r.role_id
     LEFT JOIN employees e ON u.user_id = e.user_id
@@ -35,7 +35,7 @@ $resultUser = $stmtUser->get_result();
 $userData = $resultUser->fetch_assoc();
 
 $role = $userData['role_name'];
-$coachCluster = $userData['cluster'];
+$coachCluster_id = $userData['cluster_id'];
 
 // ================= QUERY =================
 if ($role === "Teamcoach") {
@@ -47,7 +47,7 @@ if ($role === "Teamcoach") {
             e.middle_name,
             e.last_name,
             e.email,
-            e.cluster,
+            e.cluster_id,
             e.employment_status,
             s.day_of_week,
             s.shift_type,
@@ -56,11 +56,11 @@ if ($role === "Teamcoach") {
             s.work_setup
         FROM employees e
         LEFT JOIN schedules s ON e.employee_id = s.employee_id
-        WHERE e.cluster = ?
+        WHERE e.cluster_id = ?
         ORDER BY e.employee_id DESC
     ");
 
-    $stmt->bind_param("s", $coachCluster);
+    $stmt->bind_param("s", $coachCluster_id);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -74,7 +74,7 @@ if ($role === "Teamcoach") {
             e.middle_name,
             e.last_name,
             e.email,
-            e.cluster,
+            e.cluster_id,
             e.employment_status,
             s.day_of_week,
             s.shift_type,
@@ -99,7 +99,7 @@ while ($row = $result->fetch_assoc()) {
             "middle_name" => $row['middle_name'],
             "last_name" => $row['last_name'],
             "email" => $row['email'],
-            "cluster" => $row['cluster'],
+            "cluster_id" => $row['cluster_id'],
             "employment_status" => $row['employment_status'],
             "schedules" => []
         ];

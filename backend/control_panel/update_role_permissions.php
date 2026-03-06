@@ -13,8 +13,15 @@ if (!isset($_SESSION['user_id'], $_SESSION['employee_id'])) {
 
 require_once "../config/database.php";
 
-
 $data = json_decode(file_get_contents("php://input"), true);
+
+if (!$data || !isset($data['role_id'], $data['permissions'])) {
+    echo json_encode([
+        "success" => false,
+        "message" => "Invalid request data"
+    ]);
+    exit();
+}
 
 $role_id = $data['role_id'];
 $permissions = $data['permissions'];

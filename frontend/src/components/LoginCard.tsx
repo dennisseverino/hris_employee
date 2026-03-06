@@ -29,7 +29,7 @@ const LoginCard = ({
           type="text"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your username"
+          placeholder="Enter your email"
         />
       </div>
 

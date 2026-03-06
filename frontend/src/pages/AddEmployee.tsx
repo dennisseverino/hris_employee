@@ -44,10 +44,10 @@ const accounts = [
   "Recent Communication","Kevlar IT Solutions","Smart Choice"
 ];
 
-const clusters = [
-  "Cluster A","Cluster B","Cluster C","Cluster D",
-  "Night Support","Technical Team","NOC Team","Development Team"
-];
+// const clusters = [
+//   "Cluster A","Cluster B","Cluster C","Cluster D",
+//   "Night Support","Technical Team","NOC Team","Development Team"
+// ];
 
 const employeeTypes = ["Regular","Probationary","Contractual","Intern"];
 const civilStatuses = ["Single","Married","Widowed","Separated"];
@@ -73,7 +73,7 @@ const AddEmployee = ({ onClose }: Props) => {
     email: '',
     position: '',
     account: '',
-    cluster: '',
+    // cluster: '',
     employee_type: ''
   });
 
@@ -96,7 +96,8 @@ const AddEmployee = ({ onClose }: Props) => {
       return false;
     }
 
-    if (!formData.position || !formData.account || !formData.cluster || !formData.employee_type) {
+    // || !formData.cluster
+    if (!formData.position || !formData.account || !formData.employee_type) {
       alert("Please complete Employment Details.");
       setActiveTab('employment');
       return false;
@@ -116,7 +117,7 @@ const AddEmployee = ({ onClose }: Props) => {
       setLoading(true);
 
       const res = await fetch(
-        'http://localhost/employee-system/backend/employees/add_employee.php',
+        'http://localhost/hris/backend/employees/add_employee.php',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -130,7 +131,7 @@ const AddEmployee = ({ onClose }: Props) => {
 
       if (data.success) {
         alert(
-          `Employee Created!\n\nUsername: ${data.generated_account.username}\nPassword: ${data.generated_account.password}`
+          `Employee Created!\n\nEmail: ${data.generated_account.email}\nPassword: ${data.generated_account.password}`
         );
         onClose();
       } else {
@@ -230,12 +231,12 @@ const AddEmployee = ({ onClose }: Props) => {
                   {accounts.map(a => <option key={a}>{a}</option>)}
                 </select>
 
-                <select name="cluster"
+                {/* <select name="cluster"
                   value={formData.cluster}
                   onChange={handleChange}>
                   <option value="">Select Cluster</option>
                   {clusters.map(c => <option key={c}>{c}</option>)}
-                </select>
+                </select> */}
 
                 <select name="employee_type"
                   value={formData.employee_type}

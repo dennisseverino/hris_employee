@@ -1,24 +1,41 @@
 <?php
 
 require_once "../cors.php";
-session_start();
 
-if (!isset($_SESSION['role_name']) || $_SESSION['role_name'] !== 'Superadmin') {
-    http_response_code(403);
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
     exit();
 }
 
+session_start();
+
 require_once "../config/database.php";
 
-$data = json_decode(file_get_contents("php://input"), true);
+header('Content-Type: application/json');
 
-$user_id = $data['user_id'];
-$permissions = $data['permissions'];
+/* Read raw request body */
+$raw = file_get_contents("php://input");
+
+/* Decode JSON */
+$data = json_decode($raw, true);
+
+/* Debug if JSON is missing */
+if (!$data) {
+    echo json_encode([
+        "success" => false,
+        "message" => "Invalid JSON received",
+        "raw_input" => $raw
+    ]);
+    exit();
+}
+
+$user_id = intval($data['user_id']);
+$permissions = $data['permissions'] ?? [];
 
 foreach ($permissions as $perm) {
 
-    $permission_id = $perm['permission_id'];
-    $allowed = $perm['allowed'];
+    $permission_id = intval($perm['permission_id']);
+    $allowed = intval($perm['allowed']);
 
     $stmt = $conn->prepare("
         INSERT INTO user_permissions (user_id, permission_id, is_allowed)
@@ -28,7 +45,6 @@ foreach ($permissions as $perm) {
 
     $stmt->bind_param("iiii", $user_id, $permission_id, $allowed, $allowed);
     $stmt->execute();
-
 }
 
 echo json_encode([

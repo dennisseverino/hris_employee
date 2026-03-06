@@ -12,15 +12,15 @@ require_once "../config/database.php";
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-if (!$data || empty($data['username']) || empty($data['password'])) {
+if (!$data || empty($data['email']) || empty($data['password'])) {
     echo json_encode([
         "success" => false,
-        "message" => "Username and password are required"
+        "message" => "Email and password are required"
     ]);
     exit();
 }
 
-$username = $data['username'];
+$email = $data['email'];
 $password = $data['password'];
 
 
@@ -29,24 +29,24 @@ $password = $data['password'];
 $stmt = $conn->prepare("
 SELECT 
     u.user_id,
-    u.username,
-    u.password_hash,
+    u.email,
+    u.password,
     u.role_id,
     r.role_name
 FROM users u
 INNER JOIN roles r ON u.role_id = r.role_id
-WHERE u.username = ?
+WHERE u.email = ?
 LIMIT 1
 ");
 
-$stmt->bind_param("s", $username);
+$stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
     echo json_encode([
         "success" => false,
-        "message" => "Invalid username or password"
+        "message" => "Invalid email or password"
     ]);
     exit();
 }
@@ -56,10 +56,10 @@ $user = $result->fetch_assoc();
 
 // ================= VERIFY PASSWORD =================
 
-if (!password_verify($password, $user['password_hash'])) {
+if (!password_verify($password, $user['password'])) {
     echo json_encode([
         "success" => false,
-        "message" => "Invalid username or password"
+        "message" => "Invalid email or password"
     ]);
     exit();
 }
@@ -153,7 +153,7 @@ $_SESSION['permissions'] = array_values($permissions);
 
 $_SESSION['user_id']     = $user['user_id'];
 $_SESSION['employee_id'] = $employee['employee_id'];
-$_SESSION['username']    = $user['username'];
+$_SESSION['email']    = $user['email'];
 $_SESSION['role_id']     = $user['role_id'];
 $_SESSION['role_name']   = $user['role_name'];
 
@@ -166,7 +166,7 @@ echo json_encode([
     "success" => true,
     "user" => [
         "user_id" => $user['user_id'],
-        "username" => $user['username'],
+        "email" => $user['email'],
         "role" => $user['role_name']
     ]
 ]);

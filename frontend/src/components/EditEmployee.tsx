@@ -79,7 +79,7 @@ const EditEmployee = ({ employee, onClose, onSave }: Props) => {
       setLoading(true);
 
       const res = await fetch(
-        'http://localhost/employee-system/backend/employees/update_employee.php',
+        'http://localhost/hris/employee-system/backend/employees/update_employee.php',
         {
           method: 'POST',
           credentials: 'include',

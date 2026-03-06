@@ -1,10 +1,5 @@
 <?php
-header("Access-Control-Allow-Origin: http://localhost:5173");
-header("Access-Control-Allow-Credentials: true");
-header("Content-Type: application/json");
-
-ini_set('session.cookie_samesite', 'None');
-ini_set('session.cookie_secure', 'false');
+require_once "../cors.php";
 session_start();
 
 require_once __DIR__ . "/../config/database.php";
