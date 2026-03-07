@@ -1,20 +1,11 @@
 <?php
 require_once "../cors.php";
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
-
 session_start();
 require_once "../helpers/permission_helper.php";
 
 checkPermission("Add Employee");
 require_once "../config/database.php";
-
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!$data) {
@@ -77,6 +68,7 @@ try {
             employment_status,
             employee_type,
             date_hired
+            
         )
         VALUES (
             ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Active', ?, CURDATE()
