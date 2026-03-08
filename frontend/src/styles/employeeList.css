@@ -33,11 +33,12 @@
 /* ================= TABLE ================= */
 .employee-table-wrapper {
   flex: 1;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: auto;
   background: white;
   border-radius: 12px;
   border: 1px solid #1e90ff;
-  position: relative;   /* add */
+  position: relative;
 }
 
 .employee-table {
@@ -118,6 +119,8 @@
   display: flex;
   gap: 8px;
   justify-content: center;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .employee-btn-edit {
@@ -183,6 +186,7 @@
   background: #d1d5db;
 }
 
+
 .employee-table th {
   cursor: pointer;
   user-select: none;
@@ -222,4 +226,60 @@
 .employee-view-toggle button.active {
   background: #1e90ff;
   color: white;
+}
+
+/* ===== Sticky ID ===== */
+.employee-sticky-id {
+  position: sticky;
+  left: 0;
+  width: 70px;
+  min-width: 70px;
+  background: #fff;
+  z-index: 4;
+}
+
+/* ===== Sticky NAME ===== */
+.employee-sticky-name {
+  position: sticky;
+  left: 70px;
+  width: 220px;
+  min-width: 220px;
+  background: #fff;
+  z-index: 4;
+}
+
+/* ===== Sticky ACTION (right side) =====
+.employee-sticky-action {
+  position: sticky;
+  right: 0;
+  width: 130px;
+  min-width: 130px;
+  background: #fff;
+  z-index: 4;
+} */
+
+/* Maintain row color pattern */
+.employee-table tbody tr:nth-child(even) .employee-sticky-id,
+.employee-table tbody tr:nth-child(even) .employee-sticky-name,
+.employee-table tbody tr:nth-child(even) .employee-sticky-action {
+  background: #f7f7f7;
+}
+
+/* Header styling */
+.employee-table thead .employee-sticky-id,
+.employee-table thead .employee-sticky-name,
+.employee-table thead .employee-sticky-action {
+  background: #1e90ff;
+  color: white;
+  z-index: 6;
+}
+
+
+.employee-table thead .employee-sticky-action {
+  background: #1e90ff;
+  color: white;
+}
+
+.employee-sticky-name {
+  box-shadow: 3px 0 6px rgba(0,0,0,0.08);
 }

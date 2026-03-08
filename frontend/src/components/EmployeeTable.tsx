@@ -101,11 +101,15 @@ const EmployeeTable = ({
       <table className="employee-table">
         <thead>
           <tr>
-            <th onClick={() => handleSort("employee_id")}>
+            <th 
+              className="employee-sticky-id"
+              onClick={() => handleSort("employee_id")}>
               ID {renderSortIcon("employee_id")}
             </th>
 
-            <th onClick={() => handleSort("full_name")}>
+            <th 
+              className="employee-sticky-name"
+              onClick={() => handleSort("full_name")}>
               NAME {renderSortIcon("full_name")}
             </th>
 
@@ -138,9 +142,11 @@ const EmployeeTable = ({
         <tbody>
           {sortedEmployees.map((emp) => (
             <tr key={emp.employee_id}>
-              <td>{emp.employee_id}</td>
+              <td className="employee-sticky-id">
+                {emp.employee_id}
+              </td>
 
-              <td>
+              <td className="employee-sticky-name">
                 {emp.first_name} {emp.middle_name ?? ""} {emp.last_name}
               </td>
 
@@ -175,7 +181,7 @@ const EmployeeTable = ({
               </td>
 
               {/* Actions */}
-              <td className="employee-action-cell">
+              <td className="employee-action-cell employee-sticky-action">
                 {canEdit && (
                   <button
                     className="employee-btn-edit"
