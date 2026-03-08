@@ -11,6 +11,7 @@ import FilterModal from '../components/FilterModal';
 
 import type { Employee } from '../types/employee';
 import '../styles/employeeList.css';
+import EmployeeInfoModal from '../components/EmployeeInfoModal';
 
 const EmployeeList = () => {
   const [search, setSearch] = useState('');
@@ -31,6 +32,8 @@ const EmployeeList = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false); // ✅ FIXED
   const [permissions, setPermissions] = useState<string[]>([]);
   
+  const [infoEmployee, setInfoEmployee] = useState<Employee | null>(null);
+
   useEffect(() => {
   fetch("http://localhost/hris/backend/auth/get_session.php", {
     credentials: "include",
@@ -225,9 +228,16 @@ const EmployeeList = () => {
             onEdit={handleEdit}
             onDelete={handleDelete}
             onViewSchedule={handleViewSchedule}
+            onViewEmployee={(emp) => setInfoEmployee(emp)}
           />
         ) : (
           <EmployeeCards employees={filteredEmployees} />
+        )}
+        {infoEmployee && (
+          <EmployeeInfoModal
+            employee={infoEmployee}
+            onClose={() => setInfoEmployee(null)}
+          />
         )}
 
         {/* Toast */}
