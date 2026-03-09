@@ -1,7 +1,30 @@
 import { useEffect, useState } from 'react';
 import '../styles/dashboard.css';
 import Sidebar from '../components/Sidebar';
-/// REMOVE ALL FUNCTIONS FROM THIS FILE AND JUST LEAVE THE LAYOUT AND STUBS
+
+const Dashboard = () => {
+  // Stubs for layout rendering
+  const now = new Date();
+  const announcements = [];
+  const holidays = [];
+  const attendanceList = [];
+  const schedule = {
+    start_time: "08:00 AM",
+    end_time: "05:00 PM",
+    shift_type: "Regular",
+    work_setup: "On-site"
+  };
+
+  // UI State stubs
+  const attendance = null;
+  const isTimedIn = false;
+  const isCompleted = false;
+  const workedSeconds = 0;
+
+  // Placeholder formatting functions
+  const formatTime = (date) => "00:00:00 AM";
+  const formatDate = (date) => "Month 00, 0000";
+  const formatDuration = (seconds) => "00:00:00";
 
   return (
     <div className="dashboard">
@@ -21,11 +44,6 @@ import Sidebar from '../components/Sidebar';
             <div
               className="time-circle"
               role="button"
-              onClick={
-                !attendance ? handleTimeIn :
-                isTimedIn ? handleTimeOut :
-                undefined
-              }
               style={{
                 opacity: isCompleted ? 0.5 : 1,
                 cursor: isCompleted ? 'not-allowed' : 'pointer',
@@ -44,7 +62,6 @@ import Sidebar from '../components/Sidebar';
               )}
 
               {isCompleted && 'Completed'}
-
             </div>
           </div>
 
@@ -74,29 +91,28 @@ import Sidebar from '../components/Sidebar';
             <button
               className="dark-btn"
               disabled={!isTimedIn}
-              onClick={handleBreakStart}
             >
               Start
             </button>
           </div>
 
           {/* ===== Holiday ===== */}
-            <div className="card holiday">
-              <div className="card-header">
-                <h3>Holidays / Birthday</h3>
-              </div>
-
-              {holidays.length === 0 && (
-                <p className="muted">No upcoming holidays</p>
-              )}
-
-              {holidays.map((h, i) => (
-                <p key={i} className="muted">
-                  <strong>{h.holiday_name}</strong><br />
-                  {new Date(h.holiday_date).toLocaleDateString()}
-                </p>
-              ))}
+          <div className="card holiday">
+            <div className="card-header">
+              <h3>Holidays / Birthday</h3>
             </div>
+
+            {holidays.length === 0 && (
+              <p className="muted">No upcoming holidays</p>
+            )}
+
+            {holidays.map((h, i) => (
+              <p key={i} className="muted">
+                <strong>{h.holiday_name}</strong><br />
+                {new Date(h.holiday_date).toLocaleDateString()}
+              </p>
+            ))}
+          </div>
 
           {/* ===== Calendar ===== */}
           <div className="card calendar">
@@ -193,5 +209,6 @@ import Sidebar from '../components/Sidebar';
       </main>
     </div>
   );
-  
+};
+
 export default Dashboard;
