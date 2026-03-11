@@ -1,5 +1,5 @@
-import StatusBadge from "./StatusBadge";
-import type { Employee } from "../../types/employee";
+import StatusBadge from "./Employee/StatusBadge";
+import type { Employee } from "../types/employee";
 
 type Props = {
   employees: Employee[];

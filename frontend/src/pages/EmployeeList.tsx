@@ -5,7 +5,7 @@ import SearchBar from '../components/Employee/SearchBar';
 import EmployeeTable from '../components/Employee/EmployeeTable';
 import EmployeeCards from '../components/Employee/EmployeeCard';
 import EditEmployee from '../components/Employee/EditEmployee';
-import ViewScheduleModal from '../components/Employee/ViewScheduleModal';
+import ViewScheduleModal from '../components/ViewScheduleModal';
 import AddEmployee from './AddEmployee';
 import FilterModal from '../components/Employee/FilterModal';
 
