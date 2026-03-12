@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2026 at 05:42 AM
+-- Generation Time: Mar 12, 2026 at 03:43 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -46,7 +46,8 @@ INSERT INTO `activity_logs` (`log_id`, `user_id`, `action`, `target`, `created_a
 (4, 2, 'Restored Employee', NULL, '2026-03-06 04:08:10'),
 (5, 2, 'Restored Employee', NULL, '2026-03-06 04:09:24'),
 (6, 2, 'Deleted Employee Permanently', '0', '2026-03-06 04:12:41'),
-(7, 2, 'Deleted Employee Permanently', '8', '2026-03-06 04:53:15');
+(7, 2, 'Deleted Employee Permanently', '8', '2026-03-06 04:53:15'),
+(8, 2, 'Deleted Employee Permanently', '15', '2026-03-09 09:05:24');
 
 -- --------------------------------------------------------
 
@@ -183,7 +184,7 @@ INSERT INTO `employees` (`employee_id`, `user_id`, `first_name`, `middle_name`, 
 (10, 11, 'yannie', 'yannie', 'yannie', 'yannie', '2002-08-23', 'Married', 'yannie@gmail.com', 'yannie@gmail.com', 'Head of Training', 'Element IQ', NULL, '09213521231', 'Active', 'Regular', '2026-03-05', 0),
 (11, 12, 'user1', 'user1', 'user1', 'uesr1', '2002-11-11', 'Single', 'user1@gmail.com', 'user1@gmail.com', 'Accounting', 'NUSO', NULL, '09231242312', 'Active', 'Regular', '2026-03-06', 0),
 (12, 13, 'kevin', 'kevin', 'kevin', 'kevin', '2222-02-22', 'Single', 'kevin@gmail.com', 'kevin@gmail.com', 'Head of Training', 'Telepath', NULL, '09238123211', 'Active', 'Probationary', '2026-03-06', 0),
-(13, 14, 'user2', 'user2', 'user2', 'user2', '2002-02-22', 'Single', 'user2@gmail.com', 'user2@gmail.com', 'Accounting Associate', 'Sourcetoad', NULL, '09213453123', 'Active', 'Regular', '2026-03-07', 0),
+(13, 14, 'user21', 'user21', 'user21', 'user2', '2002-02-22', 'Single', 'user2@gmail.com', 'user2@gmail.com', 'Accounting Associate', 'Sourcetoad', NULL, '09213453123', 'Active', 'Regular', '2026-03-07', 0),
 (14, 15, 'user31', 'user3', 'user3', 'user3', '2002-02-01', 'Single', 'user3@gmail.com', 'user3@gmail.com', 'Sr. Recruitment Specialist', 'Telepath', NULL, '09843123456', 'Active', 'Contractual', '2026-03-07', 0);
 
 -- --------------------------------------------------------
@@ -318,6 +319,9 @@ INSERT INTO `role_permissions` (`role_id`, `permission_id`) VALUES
 (1, 9),
 (1, 10),
 (1, 11),
+(2, 1),
+(2, 2),
+(2, 3),
 (2, 4),
 (2, 5),
 (2, 6),
@@ -404,7 +408,8 @@ INSERT INTO `users` (`user_id`, `email`, `password`, `role_id`, `created_at`) VA
 (12, 'user1@gmail.com', '$2y$10$92sE1PJ1ZBtKH9P/2ZgYb.y9B/jA2t7YTH2iygHXQoaKqNQPP7sFW', 4, NULL),
 (13, 'kevin@gmail.com', '$2y$10$aD6z0ncZURS9GvReJBzYTurMh1RzE5YtLCKGp5WFgUtjsyyPBfVOG', 2, NULL),
 (14, 'user2@gmail.com', '$2y$10$Rshf7jf.s0NX31YnELKobOuATGix2s2oEK7GfGg/R5FmX5.NnFx9m', 4, NULL),
-(15, 'user3@gmail.com', '$2y$10$pwrLZUostH7EQ75kHYL4FeYg/gdkuxcbzIMU3XimlF0rvcNQVyQVq', 4, NULL);
+(15, 'user3@gmail.com', '$2y$10$pwrLZUostH7EQ75kHYL4FeYg/gdkuxcbzIMU3XimlF0rvcNQVyQVq', 4, NULL),
+(16, 'qwe@asd.com', '$2y$10$X7Uhgxa95sZ1fXwWCxUAtexNqXxr0jnaMlziKHAnyZSvL80tduRQ6', 4, NULL);
 
 -- --------------------------------------------------------
 
@@ -424,15 +429,15 @@ CREATE TABLE `user_permissions` (
 --
 
 INSERT INTO `user_permissions` (`Id`, `user_id`, `permission_id`, `is_allowed`) VALUES
-(1, 12, 1, 0),
-(2, 12, 2, 0),
-(3, 12, 3, 0),
+(1, 12, 1, 1),
+(2, 12, 2, 1),
+(3, 12, 3, 1),
 (4, 12, 4, 0),
 (5, 12, 5, 0),
 (6, 12, 6, 0),
-(7, 12, 7, 0),
+(7, 12, 7, 1),
 (8, 12, 8, 1),
-(9, 12, 9, 0),
+(9, 12, 9, 1),
 (10, 12, 10, 0),
 (11, 12, 11, 0),
 (12, 13, 1, 1),
@@ -445,7 +450,18 @@ INSERT INTO `user_permissions` (`Id`, `user_id`, `permission_id`, `is_allowed`) 
 (19, 13, 8, 1),
 (20, 13, 9, 1),
 (21, 13, 10, 0),
-(22, 13, 11, 0);
+(22, 13, 11, 0),
+(144, 2, 1, 1),
+(145, 2, 2, 1),
+(146, 2, 3, 1),
+(147, 2, 4, 1),
+(148, 2, 5, 1),
+(149, 2, 6, 1),
+(150, 2, 7, 1),
+(151, 2, 8, 1),
+(152, 2, 9, 1),
+(153, 2, 10, 1),
+(154, 2, 11, 1);
 
 --
 -- Indexes for dumped tables
@@ -592,7 +608,7 @@ ALTER TABLE `user_permissions`
 -- AUTO_INCREMENT for table `activity_logs`
 --
 ALTER TABLE `activity_logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `announcements`
@@ -628,7 +644,7 @@ ALTER TABLE `clusters`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `holidays`
@@ -676,13 +692,13 @@ ALTER TABLE `time_logs`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `user_permissions`
 --
 ALTER TABLE `user_permissions`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=254;
 
 --
 -- Constraints for dumped tables
